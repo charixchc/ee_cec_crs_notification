@@ -1,0 +1,14 @@
+name: Minimal Test Workflow
+
+on:
+  schedule:
+    - cron: '* * * * *'  # Run the script every minute
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print date and time
+        run: echo "[$(date)] Running minimal test workflow"
