@@ -42,12 +42,13 @@ def test_cron_job():
 
         if "rounds" in data and isinstance(data["rounds"], list) and len(data["rounds"]) > 0:
             latest_draw = data["rounds"][0].get("drawCRS", "N/A")  # Get CRS score safely
-            message = f"Latest CRS Score: {latest_draw}"
+            latest_draw_name = data["rounds"][0].get("drawName", "N/A")
+            message = f"Latest CRS Score for {latest_draw_name}: {latest_draw}"
         else:
             message = "Cannot read response"
 
         # Send email
-        send_email("🇨🇦 [TEST][Github] Express Entry Draw Alert!", message)
+        send_email("🇨🇦 [TEST-Phase-2][Github] Express Entry Draw Alert!", message)
         log_message(f"✅ Sent email: {message}")
 
     except requests.RequestException as e:
