@@ -23,10 +23,14 @@ def send_email(subject, message):
             server.login(EMAIL_SENDER, EMAIL_PASSWORD)
             server.sendmail(EMAIL_SENDER, EMAIL_RECIPIENT, msg.as_string())
 
-        print("📧 Email sent successfully!")
+        log_message("📧 Email sent successfully!")
 
     except Exception as e:
-        print(f"⚠️ Email sending failed: {e}")
+        log_message(f"⚠️ Email sending failed: {e}")
+
+def log_message(message):
+    with open("test_cron_log.txt", "a") as log_file:
+        log_file.write(f"[{datetime.now()}] {message}\n")
 
 def test_cron_job():
     url = "https://www.canada.ca/content/dam/ircc/documents/json/ee_rounds_123_en.json"
@@ -44,10 +48,10 @@ def test_cron_job():
 
         # Send email
         send_email("🇨🇦 [TEST] Express Entry Draw Alert!", message)
-        print(f"✅ Sent email: {message}")
+        log_message(f"✅ Sent email: {message}")
 
     except requests.RequestException as e:
-        print(f"⚠️ Error fetching data: {e}")
+        log_message(f"⚠️ Error fetching data: {e}")
         send_email("🇨🇦 [TEST] Express Entry Draw Alert!", "Cannot read response")
 
 # Run once
