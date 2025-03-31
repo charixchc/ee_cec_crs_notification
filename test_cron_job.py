@@ -47,7 +47,7 @@ def test_cron_job():
             message = "Cannot read response"
 
         # Send email
-        send_email("🇨🇦 [TEST] Express Entry Draw Alert!", message)
+        send_email("🇨🇦 [TEST][Github] Express Entry Draw Alert!", message)
         log_message(f"✅ Sent email: {message}")
 
     except requests.RequestException as e:
