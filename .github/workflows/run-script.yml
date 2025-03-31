@@ -1,9 +1,9 @@
-name: Run Python Script Every 5 Minutes
+name: Run Python Script Every 3 Hours
 
 on:
   schedule:
-    - cron: '*/5 * * * *' # This runs the script every 5 minutes
-  workflow_dispatch: # This allows you to manually trigger the workflow
+    - cron: '0 */3 * * *'  # Run the script every 3 hours
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
   run-script:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x' # Specify the Python version you need
+          python-version: '3.x'  # Specify the Python version you need
 
       - name: Install dependencies
         run: |
@@ -28,10 +28,6 @@ jobs:
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
         run: |
-          {
-            echo "[$(date)] Starting script..."
-            python test_cron_job.py
-            echo "[$(date)] Script completed successfully."
-          } >> test_cron_log.txt 2>&1 || {
-            echo "[$(date)] Script failed."
-          } >> test_cron_log.txt 2>&1
+          echo "[$(date)] Starting script..."
+          python your_script.py
+          echo "[$(date)] Script completed successfully."
