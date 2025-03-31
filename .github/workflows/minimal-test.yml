@@ -2,7 +2,7 @@ name: Minimal Test Workflow
 
 on:
   schedule:
-    - cron: '* * * * *'  # Run the script every minute
+    - cron: '2,7,12,17,22,27,32,37,42,47,52,57 * * * *'  # Run the script every 5 minutes at different times of the hour
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
