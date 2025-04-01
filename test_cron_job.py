@@ -62,38 +62,39 @@ def test_cron_job():
             latest_draw = data["rounds"][0]
             latest_draw_date = latest_draw.get("drawDate", "N/A")
             today_date = datetime.today().strftime("%Y-%m-%d")
-            
-            if latest_draw_date >= today_date:
-                latest_draw_crs = latest_draw.get("drawCRS", "N/A")  # Get CRS score safely
-                latest_draw_name = latest_draw.get("drawName", "N/A")
-                latest_draw_tie_breaking_rule = latest_draw.get("drawCutOff", "N/A")
-                latest_draw_number = latest_draw.get("drawNumber", "N/A")
-                draw_url_html = latest_draw.get("drawNumberURL", "")
-                draw_url = extract_url(draw_url_html)
-                full_url = domain + draw_url
-                log_message(f"Extracted URL: {full_url}")
-                message = f"""
-                    <html>
-                    <body>
-                        <h1>{latest_draw_name} on {latest_draw_date}</h1>
-                        <ul>
-                            <li><b>CRS score of lowest-ranked candidate invited: </b>{latest_draw_crs}</li>
-                            <li><b>Tie-breaking rule: </b>{latest_draw_tie_breaking_rule}</li>
-                        </ul>
-                        <p>More details: <a href='{full_url}'>{latest_draw_number}</a></p>
-                    </body>
-                    </html>
-                """
+            latest_draw_crs = latest_draw.get("drawCRS", "N/A")  # Get CRS score safely
+            latest_draw_name = latest_draw.get("drawName", "N/A")
+            latest_draw_tie_breaking_rule = latest_draw.get("drawCutOff", "N/A")
+            latest_draw_number = latest_draw.get("drawNumber", "N/A")
+            draw_url_html = latest_draw.get("drawNumberURL", "")
+            draw_url = extract_url(draw_url_html)
+            full_url = domain + draw_url
+            log_message(f"Extracted URL: {full_url}")
+            message = f"""
+                <html>
+                <body>
+                    <h1>{latest_draw_name} on {latest_draw_date}</h1>
+                    <ul>
+                        <li><b>CRS score of lowest-ranked candidate invited: </b>{latest_draw_crs}</li>
+                        <li><b>Tie-breaking rule: </b>{latest_draw_tie_breaking_rule}</li>
+                    </ul>
+                    <p>More details: <a href='{full_url}'>{latest_draw_number}</a></p>
+                </body>
+                </html>
+            """
 
-            else:
-                log_message("No new draw today")
+
         else:
             message = "Cannot read response"
             log_message("No rounds data found")
 
         # Send email
-        send_email(f"🇨🇦 [TEST-Phase-2][Github] Express Entry Draw Alert! {latest_draw_name}", message)
-        log_message(f"✅ Sent email: {message}")
+        if latest_draw_date >= today_date:
+            send_email(f"🇨🇦 [TEST-Phase-2][Github] Express Entry Draw Alert! {latest_draw_name}", message)
+            log_message(f"✅ Sent email: {message}")
+
+        else:
+            log_message(f"🥲 No new draw today")
 
     except requests.RequestException as e:
         log_message(f"⚠️ Error fetching data: {e}")
