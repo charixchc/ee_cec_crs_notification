@@ -52,16 +52,23 @@ def test_cron_job():
         log_message("Fetched data successfully")
 
         if "rounds" in data and isinstance(data["rounds"], list) and len(data["rounds"]) > 0:
-            latest_draw = data["rounds"][0].get("drawCRS", "N/A")  # Get CRS score safely
-            latest_draw_name = data["rounds"][0].get("drawName", "N/A")
-            draw_url_html = data["rounds"][0].get("drawNumberURL", "")
+            latest_draw = data["rounds"][0]
+            latest_draw_crs = latest_draw.get("drawCRS", "N/A")  # Get CRS score safely
+            latest_draw_name = latest_draw.get("drawName", "N/A")
+            latest_draw_date = latest_draw.get("drawName", "N/A")
+            latest_draw_tie_breaking_rule = latest_draw.get("drawCutOff", "N/A")
+            draw_url_html = latest_draw.get("drawNumberURL", "")
             draw_url = extract_url(draw_url_html)
             full_url = domain + draw_url
             log_message(f"Extracted URL: {full_url}")
             message = f"""
                 <html>
                 <body>
-                    <p>Latest CRS Score for {latest_draw_name}: {latest_draw}</p>
+                    <h1>{latest_draw_name} on {latest_draw_date}</h1>
+                    <ul>
+                        <li><label>CRS score of lowest-ranked candidate invited: </label>{latest_draw_crs}</li>
+                        <li><label>Tie-breaking rule: </label>{latest_draw_tie_breaking_rule}</li>
+                    </ul>
                     <p>More details: <a href='{full_url}'>{full_url}</a></p>
                 </body>
                 </html>
