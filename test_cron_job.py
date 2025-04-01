@@ -55,8 +55,9 @@ def test_cron_job():
             latest_draw = data["rounds"][0]
             latest_draw_crs = latest_draw.get("drawCRS", "N/A")  # Get CRS score safely
             latest_draw_name = latest_draw.get("drawName", "N/A")
-            latest_draw_date = latest_draw.get("drawName", "N/A")
+            latest_draw_date = latest_draw.get("drawDate", "N/A")
             latest_draw_tie_breaking_rule = latest_draw.get("drawCutOff", "N/A")
+            latest_draw_number = latest_draw.get("drawNumber", "N/A")
             draw_url_html = latest_draw.get("drawNumberURL", "")
             draw_url = extract_url(draw_url_html)
             full_url = domain + draw_url
@@ -69,7 +70,7 @@ def test_cron_job():
                         <li><label>CRS score of lowest-ranked candidate invited: </label>{latest_draw_crs}</li>
                         <li><label>Tie-breaking rule: </label>{latest_draw_tie_breaking_rule}</li>
                     </ul>
-                    <p>More details: <a href='{full_url}'>{full_url}</a></p>
+                    <p>More details: <a href='{full_url}'>{latest_draw_number}</a></p>
                 </body>
                 </html>
             """
