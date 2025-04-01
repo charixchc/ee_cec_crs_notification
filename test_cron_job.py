@@ -2,6 +2,7 @@ import requests
 import smtplib
 from email.mime.text import MIMEText
 from datetime import datetime
+from bs4 import BeautifulSoup
 
 # Gmail SMTP Setup
 SMTP_SERVER = "smtp.gmail.com"
@@ -13,7 +14,7 @@ EMAIL_RECIPIENT = "charishccheung@gmail.com"
 # Function to send email
 def send_email(subject, message):
     try:
-        msg = MIMEText(message)
+        msg = MIMEText(message, "html")
         msg["Subject"] = subject
         msg["From"] = EMAIL_SENDER
         msg["To"] = EMAIL_RECIPIENT
@@ -32,8 +33,16 @@ def log_message(message):
     with open("test_cron_log.txt", "a") as log_file:
         log_file.write(f"[{datetime.now()}] {message}\n")
 
+def extract_url(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    link = soup.find('a')
+    if link and 'href' in link.attrs:
+        return link['href']
+    return ""
+
 def test_cron_job():
     url = "https://www.canada.ca/content/dam/ircc/documents/json/ee_rounds_123_en.json"
+    domain = "https://www.canada.ca/"
 
     try:
         response = requests.get(url)
@@ -43,7 +52,17 @@ def test_cron_job():
         if "rounds" in data and isinstance(data["rounds"], list) and len(data["rounds"]) > 0:
             latest_draw = data["rounds"][0].get("drawCRS", "N/A")  # Get CRS score safely
             latest_draw_name = data["rounds"][0].get("drawName", "N/A")
-            message = f"Latest CRS Score for {latest_draw_name}: {latest_draw}"
+            draw_url_html = data["rounds"][0].get("drawNumberURL", "")
+            draw_url = extract_url(draw_url_html)
+            full_url = domain + draw_url
+            message = f"""
+                <html>
+                <body>
+                    <p>Latest CRS Score for {latest_draw_name}: {latest_draw}</p>
+                    <p>More details: <a href="{full_url}">{full_url}</a></p>
+                </body>
+                </html>
+            """
         else:
             message = "Cannot read response"
 
