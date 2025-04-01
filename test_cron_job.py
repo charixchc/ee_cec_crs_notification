@@ -89,12 +89,12 @@ def test_cron_job():
             log_message("No rounds data found")
 
         # Send email
-        if latest_draw_date >= today_date:
+        if latest_draw_date >= today_date and latest_draw_name == "Canadian Experience Class":
             send_email(f"🇨🇦 [TEST-Phase-2][Github] Express Entry Draw Alert! {latest_draw_name}", message)
             log_message(f"✅ Sent email: {message}")
 
         else:
-            log_message(f"🥲 No new draw today")
+            log_message(f"🥲 No new draw today. Latest Draw on {latest_draw_date} for {latest_draw_name} with the lowest CRS of {latest_draw_crs}")
 
     except requests.RequestException as e:
         log_message(f"⚠️ Error fetching data: {e}")
