@@ -90,7 +90,7 @@ def test_cron_job():
 
         # Send email
         if latest_draw_date >= today_date and latest_draw_name == "Canadian Experience Class":
-            send_email(f"🇨🇦 [TEST-Phase-2][Github] Express Entry Draw Alert! {latest_draw_name}", message)
+            send_email(f"🇨🇦 [TEST-Phase-2][Github] Express Entry Draw Alert! {latest_draw_name} (CRS: {latest_draw_crs})", message)
             log_message(f"✅ Sent email: {message}")
 
         else:
