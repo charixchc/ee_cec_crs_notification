@@ -47,7 +47,7 @@ def extract_url(html):
         return link['href']
     return ""
 
-def test_cron_job():
+def ee_cec_crs_notification():
     url = "https://www.canada.ca/content/dam/ircc/documents/json/ee_rounds_123_en.json"
     domain = "https://www.canada.ca/"
 
@@ -90,7 +90,7 @@ def test_cron_job():
 
         # Send email
         if latest_draw_date >= today_date and latest_draw_name == "Canadian Experience Class":
-            send_email(f"🇨🇦 [TEST-Phase-2][Github] Express Entry Draw Alert! {latest_draw_name} (CRS: {latest_draw_crs})", message)
+            send_email(f"🇨🇦 Express Entry Draw Alert! {latest_draw_name} (CRS: {latest_draw_crs})", message)
             log_message(f"✅ Sent email: {message}")
 
         else:
@@ -98,7 +98,7 @@ def test_cron_job():
 
     except requests.RequestException as e:
         log_message(f"⚠️ Error fetching data: {e}")
-        send_email("🇨🇦 [TEST] Express Entry Draw Alert!", "Cannot read response")
+        send_email("[TEST][Github][Error Fetching Data], "Cannot read response")
 
 # Run once
-test_cron_job()
+ee_cec_crs_notification()
