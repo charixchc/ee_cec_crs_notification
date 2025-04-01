@@ -34,8 +34,11 @@ def send_email(subject, message):
         log_message(f"⚠️ Email sending failed: {e}")
 
 def log_message(message):
-    with open(LOG_FILE_PATH, "a") as log_file:
-        log_file.write(f"[{datetime.now()}] {message}\n")
+    try:
+        with open(LOG_FILE_PATH, "a") as log_file:
+            log_file.write(f"[{datetime.now()}] {message}\n")
+    except Exception as e:
+        print(f"⚠️ Failed to write log: {e}")
 
 def extract_url(html):
     soup = BeautifulSoup(html, 'html.parser')
