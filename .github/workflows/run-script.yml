@@ -23,20 +23,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Ensure log file exists and set permissions
-        run: |
-          touch test_cron_log.txt
-          chmod 666 test_cron_log.txt
-
-      - name: Run script and log output
+      - name: Run script
         env:
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
         run: |
-          {
-            echo "[$(date)] Starting script..."
-            python test_cron_job.py
-            echo "[$(date)] Script completed successfully."
-          } >> test_cron_log.txt 2>&1 || {
-            echo "[$(date)] Script failed."
-          } >> test_cron_log.txt 2>&1
+          echo "::group::Starting Python script"
+          python test_cron_job.py
+          echo "::endgroup::"
+
+      - name: Display log file content
+        if: always()
+        run: |
+          echo "::group::Log File Content"
+          cat test_cron_log.txt
+          echo "::endgroup::"
