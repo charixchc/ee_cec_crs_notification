@@ -42,7 +42,7 @@ jobs:
           } >> test_cron_log.txt 2>&1
 
       - name: Upload log file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: cron-log
           path: test_cron_log.txt
