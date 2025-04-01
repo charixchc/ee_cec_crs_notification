@@ -3,6 +3,7 @@ import smtplib
 from email.mime.text import MIMEText
 from datetime import datetime
 from bs4 import BeautifulSoup
+import os
 
 # Gmail SMTP Setup
 SMTP_SERVER = "smtp.gmail.com"
@@ -10,6 +11,9 @@ SMTP_PORT = 587
 EMAIL_SENDER = "charishccheung@gmail.com"
 EMAIL_PASSWORD = "ystr eypo brcz jare"
 EMAIL_RECIPIENT = "charishccheung@gmail.com"
+
+# Log file path
+LOG_FILE_PATH = "test_cron_log.txt"
 
 # Function to send email
 def send_email(subject, message):
@@ -30,7 +34,7 @@ def send_email(subject, message):
         log_message(f"⚠️ Email sending failed: {e}")
 
 def log_message(message):
-    with open("test_cron_log.txt", "a") as log_file:
+    with open(LOG_FILE_PATH, "a") as log_file:
         log_file.write(f"[{datetime.now()}] {message}\n")
 
 def extract_url(html):
