@@ -98,7 +98,7 @@ def ee_cec_crs_notification():
 
     except requests.RequestException as e:
         log_message(f"⚠️ Error fetching data: {e}")
-        send_email("[TEST][Github][Error Fetching Data], "Cannot read response")
+        send_email("[ERR]", "Cannot read response")
 
 # Run once
 ee_cec_crs_notification()
