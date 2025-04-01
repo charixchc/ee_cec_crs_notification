@@ -67,8 +67,8 @@ def test_cron_job():
                 <body>
                     <h1>{latest_draw_name} on {latest_draw_date}</h1>
                     <ul>
-                        <li><label>CRS score of lowest-ranked candidate invited: </label>{latest_draw_crs}</li>
-                        <li><label>Tie-breaking rule: </label>{latest_draw_tie_breaking_rule}</li>
+                        <li><b>CRS score of lowest-ranked candidate invited: </b>{latest_draw_crs}</li>
+                        <li><b>Tie-breaking rule: </b>{latest_draw_tie_breaking_rule}</li>
                     </ul>
                     <p>More details: <a href='{full_url}'>{latest_draw_number}</a></p>
                 </body>
@@ -79,7 +79,7 @@ def test_cron_job():
             log_message("No rounds data found")
 
         # Send email
-        send_email("🇨🇦 [TEST-Phase-2][Github] Express Entry Draw Alert!", message)
+        send_email(f"🇨🇦 [TEST-Phase-2][Github] Express Entry Draw Alert! {latest_draw_name}", message)
         log_message(f"✅ Sent email: {message}")
 
     except requests.RequestException as e:
