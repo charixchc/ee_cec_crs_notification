@@ -23,6 +23,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Ensure log file exists and set permissions
+        run: |
+          touch test_cron_log.txt
+          chmod 666 test_cron_log.txt
+
       - name: Run script and log output
         env:
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
@@ -35,3 +40,9 @@ jobs:
           } >> test_cron_log.txt 2>&1 || {
             echo "[$(date)] Script failed."
           } >> test_cron_log.txt 2>&1
+
+      - name: Upload log file
+        uses: actions/upload-artifact@v2
+        with:
+          name: cron-log
+          path: test_cron_log.txt
