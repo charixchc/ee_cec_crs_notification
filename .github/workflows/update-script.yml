@@ -1,0 +1,27 @@
+name: Update Express Entry Draws
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"  # Runs every 12 hours
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  update-draws:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Install Dependencies
+        run: pip install requests supabase
+
+      - name: Run Update Script
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: python ee_data_import.py
