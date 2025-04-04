@@ -8,9 +8,13 @@ import os
 # Gmail SMTP Setup
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-EMAIL_SENDER = "charishccheung@gmail.com"
-EMAIL_PASSWORD = "ystr eypo brcz jare"
-EMAIL_RECIPIENT = "charishccheung@gmail.com"
+EMAIL_SENDER = os.getenv("EMAIL_USER")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASS")
+EMAIL_RECIPIENT = os.getenv("EMAIL_USER")
+
+# Ensure credentials are available
+if not EMAIL_SENDER or not EMAIL_PASSWORD:
+    raise ValueError("❌ Missing email credentials! Ensure EMAIL_USER and EMAIL_PASS are set.")
 
 # Log file path
 LOG_FILE_PATH = "test_cron_log.txt"
