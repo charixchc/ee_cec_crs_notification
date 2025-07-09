@@ -98,7 +98,7 @@ def ee_cec_crs_notification():
             log_message(f"✅ Sent email: {message}")
 
         else:
-            log_message(f"latest_draw_date >= today_date: {latest_draw_date >= today_date}; latest_draw_name == 'Canadian Experience Class': {latest_draw_name == 'Canadian Experience Class'}")
+            log_message(f"latest_draw_date: {latest_draw_date}; today_date: {today_date}; latest_draw_name == 'Canadian Experience Class': {latest_draw_name == 'Canadian Experience Class'}")
             log_message(f"🥲 No new draw today. Latest Draw on {latest_draw_date} for {latest_draw_name} with the lowest CRS of {latest_draw_crs}")
 
     except requests.RequestException as e:
