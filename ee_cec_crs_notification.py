@@ -1,7 +1,7 @@
 import requests
 import smtplib
 from email.mime.text import MIMEText
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from bs4 import BeautifulSoup
 import os
 
