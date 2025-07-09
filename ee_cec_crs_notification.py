@@ -65,7 +65,7 @@ def ee_cec_crs_notification():
         if "rounds" in data and isinstance(data["rounds"], list) and len(data["rounds"]) > 0:
             latest_draw = data["rounds"][0]
             latest_draw_date = latest_draw.get("drawDate", "N/A")
-            gmt_minus_4 = timezone(timedelta(hours=-8))
+            gmt_minus_4 = timezone(timedelta(hours=-4))
             today_date = datetime.now(gmt_minus_4).strftime("%Y-%m-%d")
             latest_draw_crs = latest_draw.get("drawCRS", "N/A")  # Get CRS score safely
             latest_draw_name = latest_draw.get("drawName", "N/A")
